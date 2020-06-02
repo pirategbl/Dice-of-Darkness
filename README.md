@@ -28,7 +28,7 @@ Instale o Node.Js encontrado no link: https://nodejs.org/pt-br/
 
 #### Passo 2:
 
-- Entre em https://github.com/seraph73/Dice-of-Darkness e clique em Clone or Download. Faça o download como ZIP.
+- Baixe este projeto do GitHub clicando em Clone or Download. Faça o download como ZIP.
 
 - Extraia a pasta em um local de fácil acesso.
 
