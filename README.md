@@ -18,10 +18,9 @@ Dice of Darkness é um bot que foi criado para facilitar a rolagem de dados em s
 
 ![](images/sample.png)
 
+## Tutorial de hospedagem
 
 É meio contraintuitivo, mas como não tenho possibilidades de hospedar o bot em um servidor, cada um que queira fazer o uso dele assim o deverá fazer:
-
-## Tutorial de hospedagem
 
 #### Passo 1:
 
