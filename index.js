@@ -1,89 +1,80 @@
 const Discord = require('discord.js');
-const { de, dne, ds, d9, d8, token } = require('./config.json');
+const { de, dn, ds, d9, d8, token } = require('./config.json');
 const client = new Discord.Client();
 client.once('ready', () => {
 	console.log('Estou ligado!');
 });
+const PossiveisInputs = 
+{
+    QuantidadeDeDados:"",
+    MensagemValida(message)
+    {
+        return (message.content.startsWith(ds) || message.content.startsWith(de) || message.content.startsWith(dn) || message.content.startsWith(d9) || message.content.startsWith(d8));
+    },
+    PossuiDados(message, split)
+    {
+        var res = message.content.split(" ");
+        QuantidadeDeDados = (res[1]);
+        QuantidadeDeDados = parseInt(QuantidadeDeDados);
+        if(!Number.isInteger(QuantidadeDeDados) && split != "ds")
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    },
+    ds(message)
+    {
+        return RolarDados(1, true, 10);
+    },
+    de(message)
+    {
+        return RolarDados(QuantidadeDeDados, false, 10);        
+    },
+    dn(message)
+    {
+        return RolarDados(QuantidadeDeDados, false, -1);        
+    },
+    d9(message)
+    {
+        return RolarDados(QuantidadeDeDados, false, 9);
+    },
+    d8(message)
+    {
+        return RolarDados(QuantidadeDeDados, false, 8);
+    }
+}
+
+function CriarMensagem(message)
+{
+    var split = message.content.substring(1, 3);
+
+    if(split < 2 || split == "")
+    {
+        return "Não é um comando válido";
+    }
+    
+    if(PossiveisInputs.PossuiDados(message, split))
+    {
+        const GetMensagem = PossiveisInputs[split];
+        return GetMensagem(message);
+    }
+    return "Não é um comando válido";
+}
 
 client.on('message', message => {
 
     var MensagemNoDiscord;
-    if(message.content.startsWith(ds))
+    if(PossiveisInputs.MensagemValida(message))
     {
-        MensagemNoDiscord = RolarDados(1, true, 10);
+        MensagemNoDiscord = CriarMensagem(message);        
     }
-    else
-    {
-        if(message.content.startsWith(de))
-        {
-            var res = message.content.split(" ");
-            var QuantidadeDeDados = (res[1]);
-            if(isNaN(QuantidadeDeDados))
-            {
-                message.channel.send("Não é um comando válido");
-            }
-            else
-            {
-                MensagemNoDiscord = RolarDados(QuantidadeDeDados, false, 10);
-            }
-        }
-        else
-        {
-            if(message.content.startsWith(dne))
-            {
-                var res = message.content.split(" ");
-                var QuantidadeDeDados = (res[1]);
-                if(isNaN(QuantidadeDeDados))
-                {
-                    message.channel.send("Não é um comando válido");
-                }
-                else
-                {
-                    MensagemNoDiscord = RolarDados(QuantidadeDeDados, false, -1);
-                }
-            }
-            else
-            {
-                if(message.content.startsWith(d9))
-                {
-                    var res = message.content.split(" ");
-                    var QuantidadeDeDados = (res[1]);
-                    if(isNaN(QuantidadeDeDados))
-                    {
-                        message.channel.send("Não é um comando válido");
-                    }
-                    else
-                    {
-                        MensagemNoDiscord = RolarDados(QuantidadeDeDados, false, 9);
-                    }
-                }
-                else
-                {
-                    if(message.content.startsWith(d8))
-                    {
-                        var res = message.content.split(" ");
-                        var QuantidadeDeDados = (res[1]);
-                        if(isNaN(QuantidadeDeDados))
-                        {
-                            message.channel.send("Não é um comando válido");
-                        }
-                        else
-                        {
-                            MensagemNoDiscord = RolarDados(QuantidadeDeDados, false, 8);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-
-    
     if(MensagemNoDiscord != null)
     {
         message.channel.send(MensagemNoDiscord);
     }
-    
 })
 
 client.login(token);
